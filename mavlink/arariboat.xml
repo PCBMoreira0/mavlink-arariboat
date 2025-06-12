@@ -480,7 +480,8 @@
       <field type="uint16_t" name="battery_voltage" units ="cV"></field>
       <field type="uint16_t" name="auxiliary_battery_voltage" units ="cV"></field>
       <field type="uint16_t" name="irradiance" units ="W/m^2"></field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field> 
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="2" name ="TEMPERATURES">
@@ -489,7 +490,8 @@
       <field type="int16_t" name="temperature_battery_right" units ="cdegC">Right side of battery pack</field>
       <field type="int16_t" name="temperature_mppt_left" units ="cdegC">MPPT temperature on its left side.</field>
       <field type="int16_t" name="temperature_mppt_right" units ="cdegC">MPPT temperature on its left side.</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
   
     <message id="3" name="GPS">
@@ -501,7 +503,8 @@
       <field type="uint8_t" name="heading" units="deg">Direction of the bow (source not from GPS, but from IMU)</field>
       <field type="uint8_t" name="satellites_visible"></field>
       <field type="uint8_t" name="hdop">Horizontal dilution of precision. Represents quality of GPS constellation. Values close to 1 are best. Above 5 is poor</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="4" name="MPPT">
@@ -510,14 +513,16 @@
       <field type="int16_t" name="pv_current" units ="cV">Solar array current,ID=3101</field>
       <field type="uint16_t" name="battery_voltage" units ="cV">Battery voltage,ID=3104</field>
       <field type="int16_t" name="battery_current" units ="cA">Net battery current(positive=charging),ID=331B</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="5" name="MPPT_STATE">
       <description>MPPT error codes</description>
       <field type="uint16_t" name="battery_status" enum="MPPT_STATUS">Status of the battery,ID=3200.</field>
       <field type="uint16_t" name="charging_equipment_status" enum="MPPT_STATUS">Status of the MPPT,ID=3201.</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="6" name="BMS">
@@ -526,7 +531,8 @@
       <field type="int16_t[2]" name="temperatures" units="cdegC">Temperature of the battery</field>
       <field type="int16_t" name="current_battery" units="dA">Battery current</field>
       <field type="int8_t" name="state_of_charge" units="%">Remaining battery energy. Values: [0-100]</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="7" name="BMS_STATUS">
@@ -545,7 +551,8 @@
       <field type="uint8_t" name="failure_flags_byte5" enum="DALY_FAILURE_BYTE5_SYSTEM_COMPONENT_FLAGS">Failure flags: System/Component related (Byte 5).</field>
       <field type="uint8_t" name="failure_flags_byte6" enum="DALY_FAILURE_BYTE6_OTHER_FAULTS_FLAGS">Failure flags: Other faults (Byte 6).</field>
       <field type="uint8_t" name="fault_code_byte7">Raw fault code (Byte 7 from original message).</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <!-- 
@@ -561,7 +568,8 @@
       <field type="int16_t" name="rpm" unit="drpm/bit">0.1rpm/bit, offset= -32000</field>
       <field type="uint8_t" name="accelerator_opening">1%/bit, throttle signal</field>
       <field type="uint8_t" name="instance">0 for left motor, 1 for right motor</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <!-- 
@@ -577,12 +585,15 @@
       <field type="uint8_t" name="error_flags_byte6" enum="EZKONTROL_ERROR_BYTE6_FLAGS">Error flags from Byte 6.</field>
       <field type="uint8_t" name="life_signal">Life signal counter derived from bits 7-4 from byte 7, msg II.</field>
       <field type="uint8_t" name="instance">0 for left motor, 1 for right motor</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="10" name="PUMPS">
       <description>State of bilge pumps.</description>
       <field type="uint8_t" name="pump_states">Bitmask of pump states. Bit 0: Pump Left, Bit 1: Pump Right</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="20" name="PARAM_REQUEST_READ">
@@ -618,7 +629,8 @@
       <field type="uint8_t" name="instance">Radio instance, 0 for primary radio, 1 for secondary radio.</field>
       <field type="uint8_t" name="rssi" invalid="UINT8_MAX">Local (message sender) received signal strength indication in device-dependent units/scale. Values: [0-254], UINT8_MAX: invalid/unknown.</field>
       <field type="uint16_t" name="rxerrors">Count of radio packet receive errors (since boot).</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="251" name="NAMED_VALUE_FLOAT">
@@ -626,7 +638,8 @@
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="char[10]" name="name" instance="true">Name of the debug variable</field>
       <field type="float" name="value">Floating point value</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="252" name="NAMED_VALUE_INT">
@@ -634,7 +647,8 @@
       <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
       <field type="char[10]" name="name" instance="true">Name of the debug variable</field>
       <field type="int32_t" name="value">Signed integer value</field>
-      <field type="uint32_t" name="timestamp_ms">Timestamp since system boot or UNIX time</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="253" name="STATUSTEXT">
@@ -644,6 +658,8 @@
       <extensions/>
       <field type="uint16_t" name="id">Unique (opaque) identifier for this statustext message.  May be used to reassemble a logical long-statustext message from a sequence of chunks.  A value of zero indicates this is the only chunk in the sequence and the message can be emitted immediately.</field>
       <field type="uint8_t" name="chunk_seq">This chunk's sequence number; indexing is from zero.  Any null character in the text field is taken to mean this was the last chunk.</field>
+      <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
+      <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
 
     <message id="254" name="DEBUG">

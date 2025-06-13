@@ -16,12 +16,12 @@
       <entry value="2" name="MAV_COMP_ID_RADIO_433">
         <description>EByte Lora Radio(2W)</description>
       </entry>
-      <entry value="2" name="MAV_COMP_ID_INTERNET">
+      <entry value="3" name="MAV_COMP_ID_INTERNET">
         <description>Message sent via internet</description>
       </entry>
     </enum>
 
-    <enum name="MPPT_BATTERY_STATUS" type="uint8_t">
+    <enum name="MPPT_BATTERY_STATUS">
       <description>Represents the status of the battery. Derived from input register 3200.</description>
       <entry value="0" name="MPPT_STATUS_NORMAL">
         <description>All monitored parameters are normal. For battery (ID=3200): Voltage Normal (D3-D0=00H), Temp Normal (D7-D4=00H), Internal Resistance Normal (D8=0), Rated Voltage ID Normal (D15=0).</description>
@@ -55,7 +55,7 @@
       </entry>
     </enum>
 
-    <enum name="MPPT_CHARGING_EQUIPMENT_STATUS" type="uint8_t">
+    <enum name="MPPT_CHARGING_EQUIPMENT_STATUS">
       <description>Represents the primary status of the charging equipment. Derived by interpreting bits in input register 3201. The reported status may depend on the priority logic implemented in the monitoring software if multiple conditions are present.</description>
 
       <entry value="0" name="MPPT_CHARGING_STATUS_RUNNING_STANDBY">
@@ -63,9 +63,6 @@
       </entry>
       <entry value="1" name="MPPT_CHARGING_STATUS_NORMAL_FAULT">
         <description>Equipment has detected a fault (D1=1=Fault)</description>
-      </entry>
-      <entry value="1" name="MPPT_CHARGING_STATUS_NO_CHARGING">
-        <description>Equipment is running but not actively charging (register 3201: D0=1, D1=0 (No Fault), D3-D2=00H (No Charging), and D15-D14=00H (Input Volt Normal)).</description>
       </entry>
       <entry value="2" name="MPPT_CHARGING_STATUS_FLOAT">
         <description>Equipment is in float charging mode (register 3201: D0=1, D1=0 (No Fault), D3-D2=01H (Float), and D15-D14=00H (Input Volt Normal)).</description>
@@ -100,6 +97,9 @@
       <entry value="12" name="MPPT_CHARGING_FAULT_SYSTEM">
         <description>A general system fault is active (register 3201: D1=1), not covered by other more specific fault entries in this enum.</description>
       </entry>
+      <entry value="13" name="MPPT_CHARGING_STATUS_NO_CHARGING">
+        <description>Equipment is running but not actively charging (register 3201: D0=1, D1=0 (No Fault), D3-D2=00H (No Charging), and D15-D14=00H (Input Volt Normal)).</description>
+      </entry>
       <entry value="255" name="MPPT_CHARGING_STATUS_UNKNOWN">
         <description>The charging equipment status is unknown or not yet determined.</description>
       </entry>
@@ -123,23 +123,23 @@
         This would result in a value of (1 | 4) = 5.
 
         To decode:
-        - state = value & 0x03;
-        - charge_mos_on = (value & CHARGE_DISCHARGE_CHARGE_MOS_ON) != 0
-        - discharge_mos_on = (value & CHARGE_DISCHARGE_DISCHARGE_MOS_ON) != 0
+        - state = value and 0x03;
+        - charge_mos_on = (value and CHARGE_DISCHARGE_CHARGE_MOS_ON) != 0
+        - discharge_mos_on = (value and CHARGE_DISCHARGE_DISCHARGE_MOS_ON) != 0
       </description>
 
-      <entry value="0" name="CHARGE_DISCHARGE_STATE_STATIONARY">
+      <entry value="1" name="CHARGE_DISCHARGE_STATE_STATIONARY">
         <description>Operational state is Stationary (neither charging nor discharging). This value (00b) occupies bits 0-1.</description>
       </entry>
-      <entry value="1" name="CHARGE_DISCHARGE_STATE_CHARGING">
+      <entry value="2" name="CHARGE_DISCHARGE_STATE_CHARGING">
         <description>Operational state is Charging. This value (01b) occupies bits 0-1.</description>
       </entry>
-      <entry value="2" name="CHARGE_DISCHARGE_STATE_DISCHARGING">
+      <entry value="4" name="CHARGE_DISCHARGE_STATE_DISCHARGING">
         <description>Operational state is Discharging. This value (10b) occupies bits 0-1.</description>
       </entry>
-      <entry value="4" name="CHARGE_DISCHARGE_CHARGE_MOS_ON"> <description>Charge MOSFET is ON. This flag occupies bit 2. If this flag is not set, Charge MOS is OFF.</description>
+      <entry value="8" name="CHARGE_DISCHARGE_CHARGE_MOS_ON"> <description>Charge MOSFET is ON. This flag occupies bit 2. If this flag is not set, Charge MOS is OFF.</description>
       </entry>
-      <entry value="8" name="CHARGE_DISCHARGE_DISCHARGE_MOS_ON"> <description>Discharge MOSFET is ON. This flag occupies bit 3. If this flag is not set, Discharge MOS is OFF.</description>
+      <entry value="16" name="CHARGE_DISCHARGE_DISCHARGE_MOS_ON"> <description>Discharge MOSFET is ON. This flag occupies bit 3. If this flag is not set, Discharge MOS is OFF.</description>
       </entry>
     </enum>
 
@@ -467,6 +467,34 @@
       </entry>
     </enum>
 
+    <enum name="MAV_SEVERITY">
+      <description>Indicates the severity level, generally used for status messages to indicate their relative urgency. Based on RFC-5424 using expanded definitions at: http://www.kiwisyslog.com/kb/info:-syslog-message-levels/.</description>
+      <entry value="0" name="MAV_SEVERITY_EMERGENCY">
+        <description>System is unusable. This is a "panic" condition.</description>
+      </entry>
+      <entry value="1" name="MAV_SEVERITY_ALERT">
+        <description>Action should be taken immediately. Indicates error in non-critical systems.</description>
+      </entry>
+      <entry value="2" name="MAV_SEVERITY_CRITICAL">
+        <description>Action must be taken immediately. Indicates failure in a primary system.</description>
+      </entry>
+      <entry value="3" name="MAV_SEVERITY_ERROR">
+        <description>Indicates an error in secondary/redundant systems.</description>
+      </entry>
+      <entry value="4" name="MAV_SEVERITY_WARNING">
+        <description>Indicates about a possible future error if this is not resolved within a given timeframe. Example would be a low battery warning.</description>
+      </entry>
+      <entry value="5" name="MAV_SEVERITY_NOTICE">
+        <description>An unusual event has occurred, though not an error condition. This should be investigated for the root cause.</description>
+      </entry>
+      <entry value="6" name="MAV_SEVERITY_INFO">
+        <description>Normal operational messages. Useful for logging. No action is required for these messages.</description>
+      </entry>
+      <entry value="7" name="MAV_SEVERITY_DEBUG">
+        <description>Useful non-operational messages that can assist in debugging. These should not occur during normal operation.</description>
+      </entry>
+    </enum>
+
   </enums>
 
   <messages>
@@ -519,8 +547,8 @@
 
     <message id="5" name="MPPT_STATE">
       <description>MPPT error codes</description>
-      <field type="uint16_t" name="battery_status" enum="MPPT_STATUS">Status of the battery,ID=3200.</field>
-      <field type="uint16_t" name="charging_equipment_status" enum="MPPT_STATUS">Status of the MPPT,ID=3201.</field>
+      <field type="uint16_t" name="battery_status" enum="MPPT_BATTERY_STATUS">Status of the battery,ID=3200.</field>
+      <field type="uint16_t" name="charging_equipment_status" enum="MPPT_CHARGING_EQUIPMENT_STATUS">Status of the MPPT,ID=3201.</field>
       <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
       <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>
@@ -541,7 +569,7 @@
         Contains multiple bytes of failure flags and a final fault code.
         Also includes temperatures and status bitfield of the battery management system (FET states, stationary, charging or discharging)
       </description>
-      <field type="temperatures[2]" name="temperatures" units="cdegC">Temperature of the battery</field>
+      <field type="int16_t[2]" name="temperatures" units="cdegC">Temperature of the battery</field>
       <field type="uint8_t" name="status" enum="BMS_CHARGE_DISCHARGE_STATUS_FLAGS">Charge/Discharge FET status and current charging status</field>
       <field type="uint8_t" name="failure_flags_byte0" enum="DALY_FAILURE_BYTE0_VOLTAGE_FLAGS">Failure flags: Voltage related (Byte 0).</field>
       <field type="uint8_t" name="failure_flags_byte1" enum="DALY_FAILURE_BYTE1_TEMP_FLAGS">Failure flags: Temperature related (Byte 1).</field>
@@ -563,9 +591,9 @@
       Electrical data from EZkontrol ESC based on CAN Message I, including accelerator opening for higher frequency publishing.
       Phase current is excluded because it updates too rapidly for low bandwidth links
       </description>
-      <field type="uint16_t" name="bus_voltage" unit="dV">0.1V/bit, offset= 0</field>
-      <field type="int16_t" name="bus_current" unit="dA">0.1A/bit, offset= -32000</field>
-      <field type="int16_t" name="rpm" unit="drpm/bit">0.1rpm/bit, offset= -32000</field>
+      <field type="uint16_t" name="bus_voltage" units="dV">0.1V/bit, offset= 0</field>
+      <field type="int16_t" name="bus_current" units="dA">0.1A/bit, offset= -32000</field>
+      <field type="int16_t" name="rpm" units="drpm/bit">0.1rpm/bit, offset= -32000</field>
       <field type="uint8_t" name="accelerator_opening">1%/bit, throttle signal</field>
       <field type="uint8_t" name="instance">0 for left motor, 1 for right motor</field>
       <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
@@ -602,9 +630,9 @@
       <field type="int16_t" name="param_index" invalid="-1">Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)</field>
     </message>
 
-    <message id="21" name="PARAM_REQUEST_LIST">
+    <!-- <message id="21" name="PARAM_REQUEST_LIST">
       <description>Request all parameters of this component. After this request, all parameters are emitted. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html</description>
-    </message>
+    </message> -->
 
     <message id="22" name="PARAM_VALUE">
       <description>Emit the value of a onboard parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows him to re-request missing parameters after a loss or timeout. The parameter microservice is documented at https://mavlink.io/en/services/parameter.html</description>

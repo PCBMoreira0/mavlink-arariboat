@@ -362,14 +362,14 @@ static void mavlink_test_bms(uint8_t system_id, uint8_t component_id, mavlink_me
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_bms_t packet_in = {
-        963497464,{ 17443, 17444, 17445, 17446, 17447, 17448, 17449, 17450, 17451, 17452, 17453, 17454, 17455, 17456, 17457, 17458 },{ 19107, 19108 },19315,19419,137
+        963497464,{ 17443, 17444, 17445, 17446, 17447, 17448, 17449, 17450, 17451, 17452, 17453, 17454, 17455, 17456, 17457, 17458 },{ 19107, 19108 },19315,19419,19523
     };
     mavlink_bms_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
         packet1.timestamp_seconds = packet_in.timestamp_seconds;
         packet1.current_battery = packet_in.current_battery;
-        packet1.timestamp_milliseconds = packet_in.timestamp_milliseconds;
         packet1.state_of_charge = packet_in.state_of_charge;
+        packet1.timestamp_milliseconds = packet_in.timestamp_milliseconds;
         
         mav_array_memcpy(packet1.voltages, packet_in.voltages, sizeof(uint16_t)*16);
         mav_array_memcpy(packet1.temperatures, packet_in.temperatures, sizeof(int16_t)*2);

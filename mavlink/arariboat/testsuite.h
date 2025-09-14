@@ -690,12 +690,11 @@ static void mavlink_test_eletronic_propulsion(uint8_t system_id, uint8_t compone
         uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
         uint16_t i;
     mavlink_eletronic_propulsion_t packet_in = {
-        963497464,17443,17547,17651,17755,17859,175
+        963497464,17443,17547,17651,17755,41
     };
     mavlink_eletronic_propulsion_t packet1, packet2;
         memset(&packet1, 0, sizeof(packet1));
         packet1.timestamp_seconds = packet_in.timestamp_seconds;
-        packet1.backup_potentiometer = packet_in.backup_potentiometer;
         packet1.helm_potentiometer = packet_in.helm_potentiometer;
         packet1.throttle_left_potentiometer = packet_in.throttle_left_potentiometer;
         packet1.throttle_right_potentiometer = packet_in.throttle_right_potentiometer;
@@ -715,12 +714,12 @@ static void mavlink_test_eletronic_propulsion(uint8_t system_id, uint8_t compone
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_eletronic_propulsion_pack(system_id, component_id, &msg , packet1.backup_potentiometer , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_eletronic_propulsion_pack(system_id, component_id, &msg , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
     mavlink_msg_eletronic_propulsion_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_eletronic_propulsion_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.backup_potentiometer , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_eletronic_propulsion_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
     mavlink_msg_eletronic_propulsion_decode(&msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 
@@ -733,7 +732,7 @@ static void mavlink_test_eletronic_propulsion(uint8_t system_id, uint8_t compone
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
         
         memset(&packet2, 0, sizeof(packet2));
-    mavlink_msg_eletronic_propulsion_send(MAVLINK_COMM_1 , packet1.backup_potentiometer , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_eletronic_propulsion_send(MAVLINK_COMM_1 , packet1.helm_potentiometer , packet1.throttle_left_potentiometer , packet1.throttle_right_potentiometer , packet1.state , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
     mavlink_msg_eletronic_propulsion_decode(last_msg, &packet2);
         MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
 

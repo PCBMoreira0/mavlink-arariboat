@@ -630,6 +630,7 @@
       <field type="uint16_t" name="helm_potentiometer" units="cV">Helm potenciometer value.</field>
       <field type="uint16_t" name="throttle_left_potentiometer" units="cV">Left throttle potenciometer value.</field>
       <field type="uint16_t" name="throttle_right_potentiometer" units="cV">Right throttle potenciometer value.</field>
+      <field type="uint8_t" name="state">Bit 0: OFF, Bit 1: ON</field>
       <field type="uint32_t" name="timestamp_seconds">Seconds since Unix time</field> 
       <field type="uint16_t" name="timestamp_milliseconds">Milliseconds within Unix time</field> 
     </message>

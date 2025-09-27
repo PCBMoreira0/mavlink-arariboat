@@ -742,6 +742,70 @@ static void mavlink_test_eletronic_propulsion(uint8_t system_id, uint8_t compone
 #endif
 }
 
+static void mavlink_test_mppt_strings(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
+{
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+    mavlink_status_t *status = mavlink_get_channel_status(MAVLINK_COMM_0);
+        if ((status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) && MAVLINK_MSG_ID_MPPT_STRINGS >= 256) {
+            return;
+        }
+#endif
+    mavlink_message_t msg;
+        uint8_t buffer[MAVLINK_MAX_PACKET_LEN];
+        uint16_t i;
+    mavlink_mppt_strings_t packet_in = {
+        963497464,17443,17547,17651,17755,17859
+    };
+    mavlink_mppt_strings_t packet1, packet2;
+        memset(&packet1, 0, sizeof(packet1));
+        packet1.timestamp_seconds = packet_in.timestamp_seconds;
+        packet1.string_1 = packet_in.string_1;
+        packet1.string_2 = packet_in.string_2;
+        packet1.string_3 = packet_in.string_3;
+        packet1.string_4 = packet_in.string_4;
+        packet1.timestamp_milliseconds = packet_in.timestamp_milliseconds;
+        
+        
+#ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
+        if (status->flags & MAVLINK_STATUS_FLAG_OUT_MAVLINK1) {
+           // cope with extensions
+           memset(MAVLINK_MSG_ID_MPPT_STRINGS_MIN_LEN + (char *)&packet1, 0, sizeof(packet1)-MAVLINK_MSG_ID_MPPT_STRINGS_MIN_LEN);
+        }
+#endif
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_mppt_strings_encode(system_id, component_id, &msg, &packet1);
+    mavlink_msg_mppt_strings_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_mppt_strings_pack(system_id, component_id, &msg , packet1.string_1 , packet1.string_2 , packet1.string_3 , packet1.string_4 , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_mppt_strings_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_mppt_strings_pack_chan(system_id, component_id, MAVLINK_COMM_0, &msg , packet1.string_1 , packet1.string_2 , packet1.string_3 , packet1.string_4 , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_mppt_strings_decode(&msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+        memset(&packet2, 0, sizeof(packet2));
+        mavlink_msg_to_send_buffer(buffer, &msg);
+        for (i=0; i<mavlink_msg_get_send_buffer_length(&msg); i++) {
+            comm_send_ch(MAVLINK_COMM_0, buffer[i]);
+        }
+    mavlink_msg_mppt_strings_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+        
+        memset(&packet2, 0, sizeof(packet2));
+    mavlink_msg_mppt_strings_send(MAVLINK_COMM_1 , packet1.string_1 , packet1.string_2 , packet1.string_3 , packet1.string_4 , packet1.timestamp_seconds , packet1.timestamp_milliseconds );
+    mavlink_msg_mppt_strings_decode(last_msg, &packet2);
+        MAVLINK_ASSERT(memcmp(&packet1, &packet2, sizeof(packet1)) == 0);
+
+#ifdef MAVLINK_HAVE_GET_MESSAGE_INFO
+    MAVLINK_ASSERT(mavlink_get_message_info_by_name("MPPT_STRINGS") != NULL);
+    MAVLINK_ASSERT(mavlink_get_message_info_by_id(MAVLINK_MSG_ID_MPPT_STRINGS) != NULL);
+#endif
+}
+
 static void mavlink_test_param_request_read(uint8_t system_id, uint8_t component_id, mavlink_message_t *last_msg)
 {
 #ifdef MAVLINK_STATUS_FLAG_OUT_MAVLINK1
@@ -1249,6 +1313,7 @@ static void mavlink_test_arariboat(uint8_t system_id, uint8_t component_id, mavl
     mavlink_test_ezkontrol_mcu_meter_data_ii(system_id, component_id, last_msg);
     mavlink_test_pumps(system_id, component_id, last_msg);
     mavlink_test_eletronic_propulsion(system_id, component_id, last_msg);
+    mavlink_test_mppt_strings(system_id, component_id, last_msg);
     mavlink_test_param_request_read(system_id, component_id, last_msg);
     mavlink_test_param_value(system_id, component_id, last_msg);
     mavlink_test_param_set(system_id, component_id, last_msg);

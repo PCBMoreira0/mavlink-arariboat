@@ -10,6 +10,7 @@ typedef struct __mavlink_instrumentation_t {
  int16_t motor_current_left; /*< [cA] */
  int16_t motor_current_right; /*< [cA] */
  int16_t mppt_current; /*< [cA] */
+ uint16_t panel_strings[4]; /*< [mA] Current panel string*/
  int16_t auxiliary_battery_current; /*< [cA] */
  uint16_t battery_voltage; /*< [cV] */
  uint16_t auxiliary_battery_voltage; /*< [cV] */
@@ -17,47 +18,49 @@ typedef struct __mavlink_instrumentation_t {
  uint16_t timestamp_milliseconds; /*<  Milliseconds within Unix time*/
 } mavlink_instrumentation_t;
 
-#define MAVLINK_MSG_ID_INSTRUMENTATION_LEN 22
-#define MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN 22
-#define MAVLINK_MSG_ID_1_LEN 22
-#define MAVLINK_MSG_ID_1_MIN_LEN 22
+#define MAVLINK_MSG_ID_INSTRUMENTATION_LEN 30
+#define MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN 30
+#define MAVLINK_MSG_ID_1_LEN 30
+#define MAVLINK_MSG_ID_1_MIN_LEN 30
 
-#define MAVLINK_MSG_ID_INSTRUMENTATION_CRC 83
-#define MAVLINK_MSG_ID_1_CRC 83
+#define MAVLINK_MSG_ID_INSTRUMENTATION_CRC 239
+#define MAVLINK_MSG_ID_1_CRC 239
 
-
+#define MAVLINK_MSG_INSTRUMENTATION_FIELD_PANEL_STRINGS_LEN 4
 
 #if MAVLINK_COMMAND_24BIT
 #define MAVLINK_MESSAGE_INFO_INSTRUMENTATION { \
     1, \
     "INSTRUMENTATION", \
-    10, \
+    11, \
     {  { "battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 4, offsetof(mavlink_instrumentation_t, battery_current) }, \
          { "motor_current_left", NULL, MAVLINK_TYPE_INT16_T, 0, 6, offsetof(mavlink_instrumentation_t, motor_current_left) }, \
          { "motor_current_right", NULL, MAVLINK_TYPE_INT16_T, 0, 8, offsetof(mavlink_instrumentation_t, motor_current_right) }, \
          { "mppt_current", NULL, MAVLINK_TYPE_INT16_T, 0, 10, offsetof(mavlink_instrumentation_t, mppt_current) }, \
-         { "auxiliary_battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 12, offsetof(mavlink_instrumentation_t, auxiliary_battery_current) }, \
-         { "battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 14, offsetof(mavlink_instrumentation_t, battery_voltage) }, \
-         { "auxiliary_battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 16, offsetof(mavlink_instrumentation_t, auxiliary_battery_voltage) }, \
-         { "irradiance", NULL, MAVLINK_TYPE_UINT16_T, 0, 18, offsetof(mavlink_instrumentation_t, irradiance) }, \
+         { "panel_strings", NULL, MAVLINK_TYPE_UINT16_T, 4, 12, offsetof(mavlink_instrumentation_t, panel_strings) }, \
+         { "auxiliary_battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_instrumentation_t, auxiliary_battery_current) }, \
+         { "battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 22, offsetof(mavlink_instrumentation_t, battery_voltage) }, \
+         { "auxiliary_battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_instrumentation_t, auxiliary_battery_voltage) }, \
+         { "irradiance", NULL, MAVLINK_TYPE_UINT16_T, 0, 26, offsetof(mavlink_instrumentation_t, irradiance) }, \
          { "timestamp_seconds", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_instrumentation_t, timestamp_seconds) }, \
-         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 20, offsetof(mavlink_instrumentation_t, timestamp_milliseconds) }, \
+         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 28, offsetof(mavlink_instrumentation_t, timestamp_milliseconds) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_INSTRUMENTATION { \
     "INSTRUMENTATION", \
-    10, \
+    11, \
     {  { "battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 4, offsetof(mavlink_instrumentation_t, battery_current) }, \
          { "motor_current_left", NULL, MAVLINK_TYPE_INT16_T, 0, 6, offsetof(mavlink_instrumentation_t, motor_current_left) }, \
          { "motor_current_right", NULL, MAVLINK_TYPE_INT16_T, 0, 8, offsetof(mavlink_instrumentation_t, motor_current_right) }, \
          { "mppt_current", NULL, MAVLINK_TYPE_INT16_T, 0, 10, offsetof(mavlink_instrumentation_t, mppt_current) }, \
-         { "auxiliary_battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 12, offsetof(mavlink_instrumentation_t, auxiliary_battery_current) }, \
-         { "battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 14, offsetof(mavlink_instrumentation_t, battery_voltage) }, \
-         { "auxiliary_battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 16, offsetof(mavlink_instrumentation_t, auxiliary_battery_voltage) }, \
-         { "irradiance", NULL, MAVLINK_TYPE_UINT16_T, 0, 18, offsetof(mavlink_instrumentation_t, irradiance) }, \
+         { "panel_strings", NULL, MAVLINK_TYPE_UINT16_T, 4, 12, offsetof(mavlink_instrumentation_t, panel_strings) }, \
+         { "auxiliary_battery_current", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_instrumentation_t, auxiliary_battery_current) }, \
+         { "battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 22, offsetof(mavlink_instrumentation_t, battery_voltage) }, \
+         { "auxiliary_battery_voltage", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_instrumentation_t, auxiliary_battery_voltage) }, \
+         { "irradiance", NULL, MAVLINK_TYPE_UINT16_T, 0, 26, offsetof(mavlink_instrumentation_t, irradiance) }, \
          { "timestamp_seconds", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_instrumentation_t, timestamp_seconds) }, \
-         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 20, offsetof(mavlink_instrumentation_t, timestamp_milliseconds) }, \
+         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 28, offsetof(mavlink_instrumentation_t, timestamp_milliseconds) }, \
          } \
 }
 #endif
@@ -72,6 +75,7 @@ typedef struct __mavlink_instrumentation_t {
  * @param motor_current_left [cA] 
  * @param motor_current_right [cA] 
  * @param mppt_current [cA] 
+ * @param panel_strings [mA] Current panel string
  * @param auxiliary_battery_current [cA] 
  * @param battery_voltage [cV] 
  * @param auxiliary_battery_voltage [cV] 
@@ -81,7 +85,7 @@ typedef struct __mavlink_instrumentation_t {
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_instrumentation_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+                               int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, const uint16_t *panel_strings, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_INSTRUMENTATION_LEN];
@@ -90,12 +94,12 @@ static inline uint16_t mavlink_msg_instrumentation_pack(uint8_t system_id, uint8
     _mav_put_int16_t(buf, 6, motor_current_left);
     _mav_put_int16_t(buf, 8, motor_current_right);
     _mav_put_int16_t(buf, 10, mppt_current);
-    _mav_put_int16_t(buf, 12, auxiliary_battery_current);
-    _mav_put_uint16_t(buf, 14, battery_voltage);
-    _mav_put_uint16_t(buf, 16, auxiliary_battery_voltage);
-    _mav_put_uint16_t(buf, 18, irradiance);
-    _mav_put_uint16_t(buf, 20, timestamp_milliseconds);
-
+    _mav_put_int16_t(buf, 20, auxiliary_battery_current);
+    _mav_put_uint16_t(buf, 22, battery_voltage);
+    _mav_put_uint16_t(buf, 24, auxiliary_battery_voltage);
+    _mav_put_uint16_t(buf, 26, irradiance);
+    _mav_put_uint16_t(buf, 28, timestamp_milliseconds);
+    _mav_put_uint16_t_array(buf, 12, panel_strings, 4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #else
     mavlink_instrumentation_t packet;
@@ -109,7 +113,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack(uint8_t system_id, uint8
     packet.auxiliary_battery_voltage = auxiliary_battery_voltage;
     packet.irradiance = irradiance;
     packet.timestamp_milliseconds = timestamp_milliseconds;
-
+    mav_array_memcpy(packet.panel_strings, panel_strings, sizeof(uint16_t)*4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #endif
 
@@ -128,6 +132,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack(uint8_t system_id, uint8
  * @param motor_current_left [cA] 
  * @param motor_current_right [cA] 
  * @param mppt_current [cA] 
+ * @param panel_strings [mA] Current panel string
  * @param auxiliary_battery_current [cA] 
  * @param battery_voltage [cV] 
  * @param auxiliary_battery_voltage [cV] 
@@ -137,7 +142,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack(uint8_t system_id, uint8
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_instrumentation_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
-                               int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+                               int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, const uint16_t *panel_strings, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_INSTRUMENTATION_LEN];
@@ -146,12 +151,12 @@ static inline uint16_t mavlink_msg_instrumentation_pack_status(uint8_t system_id
     _mav_put_int16_t(buf, 6, motor_current_left);
     _mav_put_int16_t(buf, 8, motor_current_right);
     _mav_put_int16_t(buf, 10, mppt_current);
-    _mav_put_int16_t(buf, 12, auxiliary_battery_current);
-    _mav_put_uint16_t(buf, 14, battery_voltage);
-    _mav_put_uint16_t(buf, 16, auxiliary_battery_voltage);
-    _mav_put_uint16_t(buf, 18, irradiance);
-    _mav_put_uint16_t(buf, 20, timestamp_milliseconds);
-
+    _mav_put_int16_t(buf, 20, auxiliary_battery_current);
+    _mav_put_uint16_t(buf, 22, battery_voltage);
+    _mav_put_uint16_t(buf, 24, auxiliary_battery_voltage);
+    _mav_put_uint16_t(buf, 26, irradiance);
+    _mav_put_uint16_t(buf, 28, timestamp_milliseconds);
+    _mav_put_uint16_t_array(buf, 12, panel_strings, 4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #else
     mavlink_instrumentation_t packet;
@@ -165,7 +170,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack_status(uint8_t system_id
     packet.auxiliary_battery_voltage = auxiliary_battery_voltage;
     packet.irradiance = irradiance;
     packet.timestamp_milliseconds = timestamp_milliseconds;
-
+    mav_array_memcpy(packet.panel_strings, panel_strings, sizeof(uint16_t)*4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #endif
 
@@ -187,6 +192,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack_status(uint8_t system_id
  * @param motor_current_left [cA] 
  * @param motor_current_right [cA] 
  * @param mppt_current [cA] 
+ * @param panel_strings [mA] Current panel string
  * @param auxiliary_battery_current [cA] 
  * @param battery_voltage [cV] 
  * @param auxiliary_battery_voltage [cV] 
@@ -197,7 +203,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack_status(uint8_t system_id
  */
 static inline uint16_t mavlink_msg_instrumentation_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   int16_t battery_current,int16_t motor_current_left,int16_t motor_current_right,int16_t mppt_current,int16_t auxiliary_battery_current,uint16_t battery_voltage,uint16_t auxiliary_battery_voltage,uint16_t irradiance,uint32_t timestamp_seconds,uint16_t timestamp_milliseconds)
+                                   int16_t battery_current,int16_t motor_current_left,int16_t motor_current_right,int16_t mppt_current,const uint16_t *panel_strings,int16_t auxiliary_battery_current,uint16_t battery_voltage,uint16_t auxiliary_battery_voltage,uint16_t irradiance,uint32_t timestamp_seconds,uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_INSTRUMENTATION_LEN];
@@ -206,12 +212,12 @@ static inline uint16_t mavlink_msg_instrumentation_pack_chan(uint8_t system_id, 
     _mav_put_int16_t(buf, 6, motor_current_left);
     _mav_put_int16_t(buf, 8, motor_current_right);
     _mav_put_int16_t(buf, 10, mppt_current);
-    _mav_put_int16_t(buf, 12, auxiliary_battery_current);
-    _mav_put_uint16_t(buf, 14, battery_voltage);
-    _mav_put_uint16_t(buf, 16, auxiliary_battery_voltage);
-    _mav_put_uint16_t(buf, 18, irradiance);
-    _mav_put_uint16_t(buf, 20, timestamp_milliseconds);
-
+    _mav_put_int16_t(buf, 20, auxiliary_battery_current);
+    _mav_put_uint16_t(buf, 22, battery_voltage);
+    _mav_put_uint16_t(buf, 24, auxiliary_battery_voltage);
+    _mav_put_uint16_t(buf, 26, irradiance);
+    _mav_put_uint16_t(buf, 28, timestamp_milliseconds);
+    _mav_put_uint16_t_array(buf, 12, panel_strings, 4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #else
     mavlink_instrumentation_t packet;
@@ -225,7 +231,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack_chan(uint8_t system_id, 
     packet.auxiliary_battery_voltage = auxiliary_battery_voltage;
     packet.irradiance = irradiance;
     packet.timestamp_milliseconds = timestamp_milliseconds;
-
+    mav_array_memcpy(packet.panel_strings, panel_strings, sizeof(uint16_t)*4);
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_INSTRUMENTATION_LEN);
 #endif
 
@@ -243,7 +249,7 @@ static inline uint16_t mavlink_msg_instrumentation_pack_chan(uint8_t system_id, 
  */
 static inline uint16_t mavlink_msg_instrumentation_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_instrumentation_t* instrumentation)
 {
-    return mavlink_msg_instrumentation_pack(system_id, component_id, msg, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
+    return mavlink_msg_instrumentation_pack(system_id, component_id, msg, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->panel_strings, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
 }
 
 /**
@@ -257,7 +263,7 @@ static inline uint16_t mavlink_msg_instrumentation_encode(uint8_t system_id, uin
  */
 static inline uint16_t mavlink_msg_instrumentation_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_instrumentation_t* instrumentation)
 {
-    return mavlink_msg_instrumentation_pack_chan(system_id, component_id, chan, msg, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
+    return mavlink_msg_instrumentation_pack_chan(system_id, component_id, chan, msg, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->panel_strings, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
 }
 
 /**
@@ -271,7 +277,7 @@ static inline uint16_t mavlink_msg_instrumentation_encode_chan(uint8_t system_id
  */
 static inline uint16_t mavlink_msg_instrumentation_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_instrumentation_t* instrumentation)
 {
-    return mavlink_msg_instrumentation_pack_status(system_id, component_id, _status, msg,  instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
+    return mavlink_msg_instrumentation_pack_status(system_id, component_id, _status, msg,  instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->panel_strings, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
 }
 
 /**
@@ -282,6 +288,7 @@ static inline uint16_t mavlink_msg_instrumentation_encode_status(uint8_t system_
  * @param motor_current_left [cA] 
  * @param motor_current_right [cA] 
  * @param mppt_current [cA] 
+ * @param panel_strings [mA] Current panel string
  * @param auxiliary_battery_current [cA] 
  * @param battery_voltage [cV] 
  * @param auxiliary_battery_voltage [cV] 
@@ -291,7 +298,7 @@ static inline uint16_t mavlink_msg_instrumentation_encode_status(uint8_t system_
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_instrumentation_send(mavlink_channel_t chan, int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+static inline void mavlink_msg_instrumentation_send(mavlink_channel_t chan, int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, const uint16_t *panel_strings, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_INSTRUMENTATION_LEN];
@@ -300,12 +307,12 @@ static inline void mavlink_msg_instrumentation_send(mavlink_channel_t chan, int1
     _mav_put_int16_t(buf, 6, motor_current_left);
     _mav_put_int16_t(buf, 8, motor_current_right);
     _mav_put_int16_t(buf, 10, mppt_current);
-    _mav_put_int16_t(buf, 12, auxiliary_battery_current);
-    _mav_put_uint16_t(buf, 14, battery_voltage);
-    _mav_put_uint16_t(buf, 16, auxiliary_battery_voltage);
-    _mav_put_uint16_t(buf, 18, irradiance);
-    _mav_put_uint16_t(buf, 20, timestamp_milliseconds);
-
+    _mav_put_int16_t(buf, 20, auxiliary_battery_current);
+    _mav_put_uint16_t(buf, 22, battery_voltage);
+    _mav_put_uint16_t(buf, 24, auxiliary_battery_voltage);
+    _mav_put_uint16_t(buf, 26, irradiance);
+    _mav_put_uint16_t(buf, 28, timestamp_milliseconds);
+    _mav_put_uint16_t_array(buf, 12, panel_strings, 4);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_INSTRUMENTATION, buf, MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_CRC);
 #else
     mavlink_instrumentation_t packet;
@@ -319,7 +326,7 @@ static inline void mavlink_msg_instrumentation_send(mavlink_channel_t chan, int1
     packet.auxiliary_battery_voltage = auxiliary_battery_voltage;
     packet.irradiance = irradiance;
     packet.timestamp_milliseconds = timestamp_milliseconds;
-
+    mav_array_memcpy(packet.panel_strings, panel_strings, sizeof(uint16_t)*4);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_INSTRUMENTATION, (const char *)&packet, MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_CRC);
 #endif
 }
@@ -332,7 +339,7 @@ static inline void mavlink_msg_instrumentation_send(mavlink_channel_t chan, int1
 static inline void mavlink_msg_instrumentation_send_struct(mavlink_channel_t chan, const mavlink_instrumentation_t* instrumentation)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_instrumentation_send(chan, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
+    mavlink_msg_instrumentation_send(chan, instrumentation->battery_current, instrumentation->motor_current_left, instrumentation->motor_current_right, instrumentation->mppt_current, instrumentation->panel_strings, instrumentation->auxiliary_battery_current, instrumentation->battery_voltage, instrumentation->auxiliary_battery_voltage, instrumentation->irradiance, instrumentation->timestamp_seconds, instrumentation->timestamp_milliseconds);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_INSTRUMENTATION, (const char *)instrumentation, MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_CRC);
 #endif
@@ -346,7 +353,7 @@ static inline void mavlink_msg_instrumentation_send_struct(mavlink_channel_t cha
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_instrumentation_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+static inline void mavlink_msg_instrumentation_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int16_t battery_current, int16_t motor_current_left, int16_t motor_current_right, int16_t mppt_current, const uint16_t *panel_strings, int16_t auxiliary_battery_current, uint16_t battery_voltage, uint16_t auxiliary_battery_voltage, uint16_t irradiance, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -355,12 +362,12 @@ static inline void mavlink_msg_instrumentation_send_buf(mavlink_message_t *msgbu
     _mav_put_int16_t(buf, 6, motor_current_left);
     _mav_put_int16_t(buf, 8, motor_current_right);
     _mav_put_int16_t(buf, 10, mppt_current);
-    _mav_put_int16_t(buf, 12, auxiliary_battery_current);
-    _mav_put_uint16_t(buf, 14, battery_voltage);
-    _mav_put_uint16_t(buf, 16, auxiliary_battery_voltage);
-    _mav_put_uint16_t(buf, 18, irradiance);
-    _mav_put_uint16_t(buf, 20, timestamp_milliseconds);
-
+    _mav_put_int16_t(buf, 20, auxiliary_battery_current);
+    _mav_put_uint16_t(buf, 22, battery_voltage);
+    _mav_put_uint16_t(buf, 24, auxiliary_battery_voltage);
+    _mav_put_uint16_t(buf, 26, irradiance);
+    _mav_put_uint16_t(buf, 28, timestamp_milliseconds);
+    _mav_put_uint16_t_array(buf, 12, panel_strings, 4);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_INSTRUMENTATION, buf, MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_CRC);
 #else
     mavlink_instrumentation_t *packet = (mavlink_instrumentation_t *)msgbuf;
@@ -374,7 +381,7 @@ static inline void mavlink_msg_instrumentation_send_buf(mavlink_message_t *msgbu
     packet->auxiliary_battery_voltage = auxiliary_battery_voltage;
     packet->irradiance = irradiance;
     packet->timestamp_milliseconds = timestamp_milliseconds;
-
+    mav_array_memcpy(packet->panel_strings, panel_strings, sizeof(uint16_t)*4);
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_INSTRUMENTATION, (const char *)packet, MAVLINK_MSG_ID_INSTRUMENTATION_MIN_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_LEN, MAVLINK_MSG_ID_INSTRUMENTATION_CRC);
 #endif
 }
@@ -426,13 +433,23 @@ static inline int16_t mavlink_msg_instrumentation_get_mppt_current(const mavlink
 }
 
 /**
+ * @brief Get field panel_strings from instrumentation message
+ *
+ * @return [mA] Current panel string
+ */
+static inline uint16_t mavlink_msg_instrumentation_get_panel_strings(const mavlink_message_t* msg, uint16_t *panel_strings)
+{
+    return _MAV_RETURN_uint16_t_array(msg, panel_strings, 4,  12);
+}
+
+/**
  * @brief Get field auxiliary_battery_current from instrumentation message
  *
  * @return [cA] 
  */
 static inline int16_t mavlink_msg_instrumentation_get_auxiliary_battery_current(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_int16_t(msg,  12);
+    return _MAV_RETURN_int16_t(msg,  20);
 }
 
 /**
@@ -442,7 +459,7 @@ static inline int16_t mavlink_msg_instrumentation_get_auxiliary_battery_current(
  */
 static inline uint16_t mavlink_msg_instrumentation_get_battery_voltage(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  14);
+    return _MAV_RETURN_uint16_t(msg,  22);
 }
 
 /**
@@ -452,7 +469,7 @@ static inline uint16_t mavlink_msg_instrumentation_get_battery_voltage(const mav
  */
 static inline uint16_t mavlink_msg_instrumentation_get_auxiliary_battery_voltage(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  16);
+    return _MAV_RETURN_uint16_t(msg,  24);
 }
 
 /**
@@ -462,7 +479,7 @@ static inline uint16_t mavlink_msg_instrumentation_get_auxiliary_battery_voltage
  */
 static inline uint16_t mavlink_msg_instrumentation_get_irradiance(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  18);
+    return _MAV_RETURN_uint16_t(msg,  26);
 }
 
 /**
@@ -482,7 +499,7 @@ static inline uint32_t mavlink_msg_instrumentation_get_timestamp_seconds(const m
  */
 static inline uint16_t mavlink_msg_instrumentation_get_timestamp_milliseconds(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  20);
+    return _MAV_RETURN_uint16_t(msg,  28);
 }
 
 /**
@@ -499,6 +516,7 @@ static inline void mavlink_msg_instrumentation_decode(const mavlink_message_t* m
     instrumentation->motor_current_left = mavlink_msg_instrumentation_get_motor_current_left(msg);
     instrumentation->motor_current_right = mavlink_msg_instrumentation_get_motor_current_right(msg);
     instrumentation->mppt_current = mavlink_msg_instrumentation_get_mppt_current(msg);
+    mavlink_msg_instrumentation_get_panel_strings(msg, instrumentation->panel_strings);
     instrumentation->auxiliary_battery_current = mavlink_msg_instrumentation_get_auxiliary_battery_current(msg);
     instrumentation->battery_voltage = mavlink_msg_instrumentation_get_battery_voltage(msg);
     instrumentation->auxiliary_battery_voltage = mavlink_msg_instrumentation_get_auxiliary_battery_voltage(msg);

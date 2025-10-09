@@ -10,16 +10,22 @@ typedef struct __mavlink_temperatures_t {
  int16_t temperature_battery_right; /*< [cdegC] Right side of battery pack*/
  int16_t temperature_mppt_left; /*< [cdegC] MPPT temperature on its left side.*/
  int16_t temperature_mppt_right; /*< [cdegC] MPPT temperature on its left side.*/
+ int16_t temperature_motor_left; /*< [cdegC] Left motor temperature.*/
+ int16_t temperature_motor_right; /*< [cdegC] Right motor temperature.*/
+ int16_t temperature_esc_left; /*< [cdegC] Left ESC temperature.*/
+ int16_t temperature_esc_right; /*< [cdegC] Right ESC temperature.*/
+ int16_t temperature_motor_cover_left; /*< [cdegC] Left motor cover temperature.*/
+ int16_t temperature_motor_cover_right; /*< [cdegC] Right motor cover temperature.*/
  uint16_t timestamp_milliseconds; /*<  Milliseconds within Unix time*/
 } mavlink_temperatures_t;
 
-#define MAVLINK_MSG_ID_TEMPERATURES_LEN 14
-#define MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN 14
-#define MAVLINK_MSG_ID_2_LEN 14
-#define MAVLINK_MSG_ID_2_MIN_LEN 14
+#define MAVLINK_MSG_ID_TEMPERATURES_LEN 26
+#define MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN 26
+#define MAVLINK_MSG_ID_2_LEN 26
+#define MAVLINK_MSG_ID_2_MIN_LEN 26
 
-#define MAVLINK_MSG_ID_TEMPERATURES_CRC 87
-#define MAVLINK_MSG_ID_2_CRC 87
+#define MAVLINK_MSG_ID_TEMPERATURES_CRC 214
+#define MAVLINK_MSG_ID_2_CRC 214
 
 
 
@@ -27,25 +33,37 @@ typedef struct __mavlink_temperatures_t {
 #define MAVLINK_MESSAGE_INFO_TEMPERATURES { \
     2, \
     "TEMPERATURES", \
-    6, \
+    12, \
     {  { "temperature_battery_left", NULL, MAVLINK_TYPE_INT16_T, 0, 4, offsetof(mavlink_temperatures_t, temperature_battery_left) }, \
          { "temperature_battery_right", NULL, MAVLINK_TYPE_INT16_T, 0, 6, offsetof(mavlink_temperatures_t, temperature_battery_right) }, \
          { "temperature_mppt_left", NULL, MAVLINK_TYPE_INT16_T, 0, 8, offsetof(mavlink_temperatures_t, temperature_mppt_left) }, \
          { "temperature_mppt_right", NULL, MAVLINK_TYPE_INT16_T, 0, 10, offsetof(mavlink_temperatures_t, temperature_mppt_right) }, \
+         { "temperature_motor_left", NULL, MAVLINK_TYPE_INT16_T, 0, 12, offsetof(mavlink_temperatures_t, temperature_motor_left) }, \
+         { "temperature_motor_right", NULL, MAVLINK_TYPE_INT16_T, 0, 14, offsetof(mavlink_temperatures_t, temperature_motor_right) }, \
+         { "temperature_esc_left", NULL, MAVLINK_TYPE_INT16_T, 0, 16, offsetof(mavlink_temperatures_t, temperature_esc_left) }, \
+         { "temperature_esc_right", NULL, MAVLINK_TYPE_INT16_T, 0, 18, offsetof(mavlink_temperatures_t, temperature_esc_right) }, \
+         { "temperature_motor_cover_left", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_temperatures_t, temperature_motor_cover_left) }, \
+         { "temperature_motor_cover_right", NULL, MAVLINK_TYPE_INT16_T, 0, 22, offsetof(mavlink_temperatures_t, temperature_motor_cover_right) }, \
          { "timestamp_seconds", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_temperatures_t, timestamp_seconds) }, \
-         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 12, offsetof(mavlink_temperatures_t, timestamp_milliseconds) }, \
+         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_temperatures_t, timestamp_milliseconds) }, \
          } \
 }
 #else
 #define MAVLINK_MESSAGE_INFO_TEMPERATURES { \
     "TEMPERATURES", \
-    6, \
+    12, \
     {  { "temperature_battery_left", NULL, MAVLINK_TYPE_INT16_T, 0, 4, offsetof(mavlink_temperatures_t, temperature_battery_left) }, \
          { "temperature_battery_right", NULL, MAVLINK_TYPE_INT16_T, 0, 6, offsetof(mavlink_temperatures_t, temperature_battery_right) }, \
          { "temperature_mppt_left", NULL, MAVLINK_TYPE_INT16_T, 0, 8, offsetof(mavlink_temperatures_t, temperature_mppt_left) }, \
          { "temperature_mppt_right", NULL, MAVLINK_TYPE_INT16_T, 0, 10, offsetof(mavlink_temperatures_t, temperature_mppt_right) }, \
+         { "temperature_motor_left", NULL, MAVLINK_TYPE_INT16_T, 0, 12, offsetof(mavlink_temperatures_t, temperature_motor_left) }, \
+         { "temperature_motor_right", NULL, MAVLINK_TYPE_INT16_T, 0, 14, offsetof(mavlink_temperatures_t, temperature_motor_right) }, \
+         { "temperature_esc_left", NULL, MAVLINK_TYPE_INT16_T, 0, 16, offsetof(mavlink_temperatures_t, temperature_esc_left) }, \
+         { "temperature_esc_right", NULL, MAVLINK_TYPE_INT16_T, 0, 18, offsetof(mavlink_temperatures_t, temperature_esc_right) }, \
+         { "temperature_motor_cover_left", NULL, MAVLINK_TYPE_INT16_T, 0, 20, offsetof(mavlink_temperatures_t, temperature_motor_cover_left) }, \
+         { "temperature_motor_cover_right", NULL, MAVLINK_TYPE_INT16_T, 0, 22, offsetof(mavlink_temperatures_t, temperature_motor_cover_right) }, \
          { "timestamp_seconds", NULL, MAVLINK_TYPE_UINT32_T, 0, 0, offsetof(mavlink_temperatures_t, timestamp_seconds) }, \
-         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 12, offsetof(mavlink_temperatures_t, timestamp_milliseconds) }, \
+         { "timestamp_milliseconds", NULL, MAVLINK_TYPE_UINT16_T, 0, 24, offsetof(mavlink_temperatures_t, timestamp_milliseconds) }, \
          } \
 }
 #endif
@@ -60,12 +78,18 @@ typedef struct __mavlink_temperatures_t {
  * @param temperature_battery_right [cdegC] Right side of battery pack
  * @param temperature_mppt_left [cdegC] MPPT temperature on its left side.
  * @param temperature_mppt_right [cdegC] MPPT temperature on its left side.
+ * @param temperature_motor_left [cdegC] Left motor temperature.
+ * @param temperature_motor_right [cdegC] Right motor temperature.
+ * @param temperature_esc_left [cdegC] Left ESC temperature.
+ * @param temperature_esc_right [cdegC] Right ESC temperature.
+ * @param temperature_motor_cover_left [cdegC] Left motor cover temperature.
+ * @param temperature_motor_cover_right [cdegC] Right motor cover temperature.
  * @param timestamp_seconds  Seconds since Unix time
  * @param timestamp_milliseconds  Milliseconds within Unix time
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_temperatures_pack(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg,
-                               int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+                               int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, int16_t temperature_motor_left, int16_t temperature_motor_right, int16_t temperature_esc_left, int16_t temperature_esc_right, int16_t temperature_motor_cover_left, int16_t temperature_motor_cover_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TEMPERATURES_LEN];
@@ -74,7 +98,13 @@ static inline uint16_t mavlink_msg_temperatures_pack(uint8_t system_id, uint8_t 
     _mav_put_int16_t(buf, 6, temperature_battery_right);
     _mav_put_int16_t(buf, 8, temperature_mppt_left);
     _mav_put_int16_t(buf, 10, temperature_mppt_right);
-    _mav_put_uint16_t(buf, 12, timestamp_milliseconds);
+    _mav_put_int16_t(buf, 12, temperature_motor_left);
+    _mav_put_int16_t(buf, 14, temperature_motor_right);
+    _mav_put_int16_t(buf, 16, temperature_esc_left);
+    _mav_put_int16_t(buf, 18, temperature_esc_right);
+    _mav_put_int16_t(buf, 20, temperature_motor_cover_left);
+    _mav_put_int16_t(buf, 22, temperature_motor_cover_right);
+    _mav_put_uint16_t(buf, 24, timestamp_milliseconds);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TEMPERATURES_LEN);
 #else
@@ -84,6 +114,12 @@ static inline uint16_t mavlink_msg_temperatures_pack(uint8_t system_id, uint8_t 
     packet.temperature_battery_right = temperature_battery_right;
     packet.temperature_mppt_left = temperature_mppt_left;
     packet.temperature_mppt_right = temperature_mppt_right;
+    packet.temperature_motor_left = temperature_motor_left;
+    packet.temperature_motor_right = temperature_motor_right;
+    packet.temperature_esc_left = temperature_esc_left;
+    packet.temperature_esc_right = temperature_esc_right;
+    packet.temperature_motor_cover_left = temperature_motor_cover_left;
+    packet.temperature_motor_cover_right = temperature_motor_cover_right;
     packet.timestamp_milliseconds = timestamp_milliseconds;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TEMPERATURES_LEN);
@@ -104,12 +140,18 @@ static inline uint16_t mavlink_msg_temperatures_pack(uint8_t system_id, uint8_t 
  * @param temperature_battery_right [cdegC] Right side of battery pack
  * @param temperature_mppt_left [cdegC] MPPT temperature on its left side.
  * @param temperature_mppt_right [cdegC] MPPT temperature on its left side.
+ * @param temperature_motor_left [cdegC] Left motor temperature.
+ * @param temperature_motor_right [cdegC] Right motor temperature.
+ * @param temperature_esc_left [cdegC] Left ESC temperature.
+ * @param temperature_esc_right [cdegC] Right ESC temperature.
+ * @param temperature_motor_cover_left [cdegC] Left motor cover temperature.
+ * @param temperature_motor_cover_right [cdegC] Right motor cover temperature.
  * @param timestamp_seconds  Seconds since Unix time
  * @param timestamp_milliseconds  Milliseconds within Unix time
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_temperatures_pack_status(uint8_t system_id, uint8_t component_id, mavlink_status_t *_status, mavlink_message_t* msg,
-                               int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+                               int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, int16_t temperature_motor_left, int16_t temperature_motor_right, int16_t temperature_esc_left, int16_t temperature_esc_right, int16_t temperature_motor_cover_left, int16_t temperature_motor_cover_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TEMPERATURES_LEN];
@@ -118,7 +160,13 @@ static inline uint16_t mavlink_msg_temperatures_pack_status(uint8_t system_id, u
     _mav_put_int16_t(buf, 6, temperature_battery_right);
     _mav_put_int16_t(buf, 8, temperature_mppt_left);
     _mav_put_int16_t(buf, 10, temperature_mppt_right);
-    _mav_put_uint16_t(buf, 12, timestamp_milliseconds);
+    _mav_put_int16_t(buf, 12, temperature_motor_left);
+    _mav_put_int16_t(buf, 14, temperature_motor_right);
+    _mav_put_int16_t(buf, 16, temperature_esc_left);
+    _mav_put_int16_t(buf, 18, temperature_esc_right);
+    _mav_put_int16_t(buf, 20, temperature_motor_cover_left);
+    _mav_put_int16_t(buf, 22, temperature_motor_cover_right);
+    _mav_put_uint16_t(buf, 24, timestamp_milliseconds);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TEMPERATURES_LEN);
 #else
@@ -128,6 +176,12 @@ static inline uint16_t mavlink_msg_temperatures_pack_status(uint8_t system_id, u
     packet.temperature_battery_right = temperature_battery_right;
     packet.temperature_mppt_left = temperature_mppt_left;
     packet.temperature_mppt_right = temperature_mppt_right;
+    packet.temperature_motor_left = temperature_motor_left;
+    packet.temperature_motor_right = temperature_motor_right;
+    packet.temperature_esc_left = temperature_esc_left;
+    packet.temperature_esc_right = temperature_esc_right;
+    packet.temperature_motor_cover_left = temperature_motor_cover_left;
+    packet.temperature_motor_cover_right = temperature_motor_cover_right;
     packet.timestamp_milliseconds = timestamp_milliseconds;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TEMPERATURES_LEN);
@@ -151,13 +205,19 @@ static inline uint16_t mavlink_msg_temperatures_pack_status(uint8_t system_id, u
  * @param temperature_battery_right [cdegC] Right side of battery pack
  * @param temperature_mppt_left [cdegC] MPPT temperature on its left side.
  * @param temperature_mppt_right [cdegC] MPPT temperature on its left side.
+ * @param temperature_motor_left [cdegC] Left motor temperature.
+ * @param temperature_motor_right [cdegC] Right motor temperature.
+ * @param temperature_esc_left [cdegC] Left ESC temperature.
+ * @param temperature_esc_right [cdegC] Right ESC temperature.
+ * @param temperature_motor_cover_left [cdegC] Left motor cover temperature.
+ * @param temperature_motor_cover_right [cdegC] Right motor cover temperature.
  * @param timestamp_seconds  Seconds since Unix time
  * @param timestamp_milliseconds  Milliseconds within Unix time
  * @return length of the message in bytes (excluding serial stream start sign)
  */
 static inline uint16_t mavlink_msg_temperatures_pack_chan(uint8_t system_id, uint8_t component_id, uint8_t chan,
                                mavlink_message_t* msg,
-                                   int16_t temperature_battery_left,int16_t temperature_battery_right,int16_t temperature_mppt_left,int16_t temperature_mppt_right,uint32_t timestamp_seconds,uint16_t timestamp_milliseconds)
+                                   int16_t temperature_battery_left,int16_t temperature_battery_right,int16_t temperature_mppt_left,int16_t temperature_mppt_right,int16_t temperature_motor_left,int16_t temperature_motor_right,int16_t temperature_esc_left,int16_t temperature_esc_right,int16_t temperature_motor_cover_left,int16_t temperature_motor_cover_right,uint32_t timestamp_seconds,uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TEMPERATURES_LEN];
@@ -166,7 +226,13 @@ static inline uint16_t mavlink_msg_temperatures_pack_chan(uint8_t system_id, uin
     _mav_put_int16_t(buf, 6, temperature_battery_right);
     _mav_put_int16_t(buf, 8, temperature_mppt_left);
     _mav_put_int16_t(buf, 10, temperature_mppt_right);
-    _mav_put_uint16_t(buf, 12, timestamp_milliseconds);
+    _mav_put_int16_t(buf, 12, temperature_motor_left);
+    _mav_put_int16_t(buf, 14, temperature_motor_right);
+    _mav_put_int16_t(buf, 16, temperature_esc_left);
+    _mav_put_int16_t(buf, 18, temperature_esc_right);
+    _mav_put_int16_t(buf, 20, temperature_motor_cover_left);
+    _mav_put_int16_t(buf, 22, temperature_motor_cover_right);
+    _mav_put_uint16_t(buf, 24, timestamp_milliseconds);
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), buf, MAVLINK_MSG_ID_TEMPERATURES_LEN);
 #else
@@ -176,6 +242,12 @@ static inline uint16_t mavlink_msg_temperatures_pack_chan(uint8_t system_id, uin
     packet.temperature_battery_right = temperature_battery_right;
     packet.temperature_mppt_left = temperature_mppt_left;
     packet.temperature_mppt_right = temperature_mppt_right;
+    packet.temperature_motor_left = temperature_motor_left;
+    packet.temperature_motor_right = temperature_motor_right;
+    packet.temperature_esc_left = temperature_esc_left;
+    packet.temperature_esc_right = temperature_esc_right;
+    packet.temperature_motor_cover_left = temperature_motor_cover_left;
+    packet.temperature_motor_cover_right = temperature_motor_cover_right;
     packet.timestamp_milliseconds = timestamp_milliseconds;
 
         memcpy(_MAV_PAYLOAD_NON_CONST(msg), &packet, MAVLINK_MSG_ID_TEMPERATURES_LEN);
@@ -195,7 +267,7 @@ static inline uint16_t mavlink_msg_temperatures_pack_chan(uint8_t system_id, uin
  */
 static inline uint16_t mavlink_msg_temperatures_encode(uint8_t system_id, uint8_t component_id, mavlink_message_t* msg, const mavlink_temperatures_t* temperatures)
 {
-    return mavlink_msg_temperatures_pack(system_id, component_id, msg, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
+    return mavlink_msg_temperatures_pack(system_id, component_id, msg, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->temperature_motor_left, temperatures->temperature_motor_right, temperatures->temperature_esc_left, temperatures->temperature_esc_right, temperatures->temperature_motor_cover_left, temperatures->temperature_motor_cover_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
 }
 
 /**
@@ -209,7 +281,7 @@ static inline uint16_t mavlink_msg_temperatures_encode(uint8_t system_id, uint8_
  */
 static inline uint16_t mavlink_msg_temperatures_encode_chan(uint8_t system_id, uint8_t component_id, uint8_t chan, mavlink_message_t* msg, const mavlink_temperatures_t* temperatures)
 {
-    return mavlink_msg_temperatures_pack_chan(system_id, component_id, chan, msg, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
+    return mavlink_msg_temperatures_pack_chan(system_id, component_id, chan, msg, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->temperature_motor_left, temperatures->temperature_motor_right, temperatures->temperature_esc_left, temperatures->temperature_esc_right, temperatures->temperature_motor_cover_left, temperatures->temperature_motor_cover_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
 }
 
 /**
@@ -223,7 +295,7 @@ static inline uint16_t mavlink_msg_temperatures_encode_chan(uint8_t system_id, u
  */
 static inline uint16_t mavlink_msg_temperatures_encode_status(uint8_t system_id, uint8_t component_id, mavlink_status_t* _status, mavlink_message_t* msg, const mavlink_temperatures_t* temperatures)
 {
-    return mavlink_msg_temperatures_pack_status(system_id, component_id, _status, msg,  temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
+    return mavlink_msg_temperatures_pack_status(system_id, component_id, _status, msg,  temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->temperature_motor_left, temperatures->temperature_motor_right, temperatures->temperature_esc_left, temperatures->temperature_esc_right, temperatures->temperature_motor_cover_left, temperatures->temperature_motor_cover_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
 }
 
 /**
@@ -234,12 +306,18 @@ static inline uint16_t mavlink_msg_temperatures_encode_status(uint8_t system_id,
  * @param temperature_battery_right [cdegC] Right side of battery pack
  * @param temperature_mppt_left [cdegC] MPPT temperature on its left side.
  * @param temperature_mppt_right [cdegC] MPPT temperature on its left side.
+ * @param temperature_motor_left [cdegC] Left motor temperature.
+ * @param temperature_motor_right [cdegC] Right motor temperature.
+ * @param temperature_esc_left [cdegC] Left ESC temperature.
+ * @param temperature_esc_right [cdegC] Right ESC temperature.
+ * @param temperature_motor_cover_left [cdegC] Left motor cover temperature.
+ * @param temperature_motor_cover_right [cdegC] Right motor cover temperature.
  * @param timestamp_seconds  Seconds since Unix time
  * @param timestamp_milliseconds  Milliseconds within Unix time
  */
 #ifdef MAVLINK_USE_CONVENIENCE_FUNCTIONS
 
-static inline void mavlink_msg_temperatures_send(mavlink_channel_t chan, int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+static inline void mavlink_msg_temperatures_send(mavlink_channel_t chan, int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, int16_t temperature_motor_left, int16_t temperature_motor_right, int16_t temperature_esc_left, int16_t temperature_esc_right, int16_t temperature_motor_cover_left, int16_t temperature_motor_cover_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char buf[MAVLINK_MSG_ID_TEMPERATURES_LEN];
@@ -248,7 +326,13 @@ static inline void mavlink_msg_temperatures_send(mavlink_channel_t chan, int16_t
     _mav_put_int16_t(buf, 6, temperature_battery_right);
     _mav_put_int16_t(buf, 8, temperature_mppt_left);
     _mav_put_int16_t(buf, 10, temperature_mppt_right);
-    _mav_put_uint16_t(buf, 12, timestamp_milliseconds);
+    _mav_put_int16_t(buf, 12, temperature_motor_left);
+    _mav_put_int16_t(buf, 14, temperature_motor_right);
+    _mav_put_int16_t(buf, 16, temperature_esc_left);
+    _mav_put_int16_t(buf, 18, temperature_esc_right);
+    _mav_put_int16_t(buf, 20, temperature_motor_cover_left);
+    _mav_put_int16_t(buf, 22, temperature_motor_cover_right);
+    _mav_put_uint16_t(buf, 24, timestamp_milliseconds);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TEMPERATURES, buf, MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN, MAVLINK_MSG_ID_TEMPERATURES_LEN, MAVLINK_MSG_ID_TEMPERATURES_CRC);
 #else
@@ -258,6 +342,12 @@ static inline void mavlink_msg_temperatures_send(mavlink_channel_t chan, int16_t
     packet.temperature_battery_right = temperature_battery_right;
     packet.temperature_mppt_left = temperature_mppt_left;
     packet.temperature_mppt_right = temperature_mppt_right;
+    packet.temperature_motor_left = temperature_motor_left;
+    packet.temperature_motor_right = temperature_motor_right;
+    packet.temperature_esc_left = temperature_esc_left;
+    packet.temperature_esc_right = temperature_esc_right;
+    packet.temperature_motor_cover_left = temperature_motor_cover_left;
+    packet.temperature_motor_cover_right = temperature_motor_cover_right;
     packet.timestamp_milliseconds = timestamp_milliseconds;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TEMPERATURES, (const char *)&packet, MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN, MAVLINK_MSG_ID_TEMPERATURES_LEN, MAVLINK_MSG_ID_TEMPERATURES_CRC);
@@ -272,7 +362,7 @@ static inline void mavlink_msg_temperatures_send(mavlink_channel_t chan, int16_t
 static inline void mavlink_msg_temperatures_send_struct(mavlink_channel_t chan, const mavlink_temperatures_t* temperatures)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
-    mavlink_msg_temperatures_send(chan, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
+    mavlink_msg_temperatures_send(chan, temperatures->temperature_battery_left, temperatures->temperature_battery_right, temperatures->temperature_mppt_left, temperatures->temperature_mppt_right, temperatures->temperature_motor_left, temperatures->temperature_motor_right, temperatures->temperature_esc_left, temperatures->temperature_esc_right, temperatures->temperature_motor_cover_left, temperatures->temperature_motor_cover_right, temperatures->timestamp_seconds, temperatures->timestamp_milliseconds);
 #else
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TEMPERATURES, (const char *)temperatures, MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN, MAVLINK_MSG_ID_TEMPERATURES_LEN, MAVLINK_MSG_ID_TEMPERATURES_CRC);
 #endif
@@ -286,7 +376,7 @@ static inline void mavlink_msg_temperatures_send_struct(mavlink_channel_t chan, 
   is usually the receive buffer for the channel, and allows a reply to an
   incoming message with minimum stack space usage.
  */
-static inline void mavlink_msg_temperatures_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
+static inline void mavlink_msg_temperatures_send_buf(mavlink_message_t *msgbuf, mavlink_channel_t chan,  int16_t temperature_battery_left, int16_t temperature_battery_right, int16_t temperature_mppt_left, int16_t temperature_mppt_right, int16_t temperature_motor_left, int16_t temperature_motor_right, int16_t temperature_esc_left, int16_t temperature_esc_right, int16_t temperature_motor_cover_left, int16_t temperature_motor_cover_right, uint32_t timestamp_seconds, uint16_t timestamp_milliseconds)
 {
 #if MAVLINK_NEED_BYTE_SWAP || !MAVLINK_ALIGNED_FIELDS
     char *buf = (char *)msgbuf;
@@ -295,7 +385,13 @@ static inline void mavlink_msg_temperatures_send_buf(mavlink_message_t *msgbuf, 
     _mav_put_int16_t(buf, 6, temperature_battery_right);
     _mav_put_int16_t(buf, 8, temperature_mppt_left);
     _mav_put_int16_t(buf, 10, temperature_mppt_right);
-    _mav_put_uint16_t(buf, 12, timestamp_milliseconds);
+    _mav_put_int16_t(buf, 12, temperature_motor_left);
+    _mav_put_int16_t(buf, 14, temperature_motor_right);
+    _mav_put_int16_t(buf, 16, temperature_esc_left);
+    _mav_put_int16_t(buf, 18, temperature_esc_right);
+    _mav_put_int16_t(buf, 20, temperature_motor_cover_left);
+    _mav_put_int16_t(buf, 22, temperature_motor_cover_right);
+    _mav_put_uint16_t(buf, 24, timestamp_milliseconds);
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TEMPERATURES, buf, MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN, MAVLINK_MSG_ID_TEMPERATURES_LEN, MAVLINK_MSG_ID_TEMPERATURES_CRC);
 #else
@@ -305,6 +401,12 @@ static inline void mavlink_msg_temperatures_send_buf(mavlink_message_t *msgbuf, 
     packet->temperature_battery_right = temperature_battery_right;
     packet->temperature_mppt_left = temperature_mppt_left;
     packet->temperature_mppt_right = temperature_mppt_right;
+    packet->temperature_motor_left = temperature_motor_left;
+    packet->temperature_motor_right = temperature_motor_right;
+    packet->temperature_esc_left = temperature_esc_left;
+    packet->temperature_esc_right = temperature_esc_right;
+    packet->temperature_motor_cover_left = temperature_motor_cover_left;
+    packet->temperature_motor_cover_right = temperature_motor_cover_right;
     packet->timestamp_milliseconds = timestamp_milliseconds;
 
     _mav_finalize_message_chan_send(chan, MAVLINK_MSG_ID_TEMPERATURES, (const char *)packet, MAVLINK_MSG_ID_TEMPERATURES_MIN_LEN, MAVLINK_MSG_ID_TEMPERATURES_LEN, MAVLINK_MSG_ID_TEMPERATURES_CRC);
@@ -358,6 +460,66 @@ static inline int16_t mavlink_msg_temperatures_get_temperature_mppt_right(const 
 }
 
 /**
+ * @brief Get field temperature_motor_left from temperatures message
+ *
+ * @return [cdegC] Left motor temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_motor_left(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  12);
+}
+
+/**
+ * @brief Get field temperature_motor_right from temperatures message
+ *
+ * @return [cdegC] Right motor temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_motor_right(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  14);
+}
+
+/**
+ * @brief Get field temperature_esc_left from temperatures message
+ *
+ * @return [cdegC] Left ESC temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_esc_left(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  16);
+}
+
+/**
+ * @brief Get field temperature_esc_right from temperatures message
+ *
+ * @return [cdegC] Right ESC temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_esc_right(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  18);
+}
+
+/**
+ * @brief Get field temperature_motor_cover_left from temperatures message
+ *
+ * @return [cdegC] Left motor cover temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_motor_cover_left(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  20);
+}
+
+/**
+ * @brief Get field temperature_motor_cover_right from temperatures message
+ *
+ * @return [cdegC] Right motor cover temperature.
+ */
+static inline int16_t mavlink_msg_temperatures_get_temperature_motor_cover_right(const mavlink_message_t* msg)
+{
+    return _MAV_RETURN_int16_t(msg,  22);
+}
+
+/**
  * @brief Get field timestamp_seconds from temperatures message
  *
  * @return  Seconds since Unix time
@@ -374,7 +536,7 @@ static inline uint32_t mavlink_msg_temperatures_get_timestamp_seconds(const mavl
  */
 static inline uint16_t mavlink_msg_temperatures_get_timestamp_milliseconds(const mavlink_message_t* msg)
 {
-    return _MAV_RETURN_uint16_t(msg,  12);
+    return _MAV_RETURN_uint16_t(msg,  24);
 }
 
 /**
@@ -391,6 +553,12 @@ static inline void mavlink_msg_temperatures_decode(const mavlink_message_t* msg,
     temperatures->temperature_battery_right = mavlink_msg_temperatures_get_temperature_battery_right(msg);
     temperatures->temperature_mppt_left = mavlink_msg_temperatures_get_temperature_mppt_left(msg);
     temperatures->temperature_mppt_right = mavlink_msg_temperatures_get_temperature_mppt_right(msg);
+    temperatures->temperature_motor_left = mavlink_msg_temperatures_get_temperature_motor_left(msg);
+    temperatures->temperature_motor_right = mavlink_msg_temperatures_get_temperature_motor_right(msg);
+    temperatures->temperature_esc_left = mavlink_msg_temperatures_get_temperature_esc_left(msg);
+    temperatures->temperature_esc_right = mavlink_msg_temperatures_get_temperature_esc_right(msg);
+    temperatures->temperature_motor_cover_left = mavlink_msg_temperatures_get_temperature_motor_cover_left(msg);
+    temperatures->temperature_motor_cover_right = mavlink_msg_temperatures_get_temperature_motor_cover_right(msg);
     temperatures->timestamp_milliseconds = mavlink_msg_temperatures_get_timestamp_milliseconds(msg);
 #else
         uint8_t len = msg->len < MAVLINK_MSG_ID_TEMPERATURES_LEN? msg->len : MAVLINK_MSG_ID_TEMPERATURES_LEN;
